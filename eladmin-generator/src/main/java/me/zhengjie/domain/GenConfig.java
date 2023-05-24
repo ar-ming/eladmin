@@ -15,13 +15,19 @@
  */
 package me.zhengjie.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import java.io.Serializable;
 
 /**
  * 代码生成配置
@@ -41,38 +47,38 @@ public class GenConfig implements Serializable {
 
     @Id
     @Column(name = "config_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @ApiModelProperty(value = "表名")
+    @Schema(title = "表名")
     private String tableName;
 
-    @ApiModelProperty(value = "接口名称")
+    @Schema(title = "接口名称")
     private String apiAlias;
 
     @NotBlank
-    @ApiModelProperty(value = "包路径")
+    @Schema(title = "包路径")
     private String pack;
 
     @NotBlank
-    @ApiModelProperty(value = "模块名")
+    @Schema(title = "模块名")
     private String moduleName;
 
     @NotBlank
-    @ApiModelProperty(value = "前端文件路径")
+    @Schema(title = "前端文件路径")
     private String path;
 
-    @ApiModelProperty(value = "前端文件路径")
+    @Schema(title = "前端文件路径")
     private String apiPath;
 
-    @ApiModelProperty(value = "作者")
+    @Schema(title = "作者")
     private String author;
 
-    @ApiModelProperty(value = "表前缀")
+    @Schema(title = "表前缀")
     private String prefix;
 
-    @ApiModelProperty(value = "是否覆盖")
+    @Schema(title = "是否覆盖")
     private Boolean cover = false;
 }

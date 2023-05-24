@@ -15,14 +15,20 @@
  */
 package me.zhengjie.modules.mnt.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import java.io.Serializable;
 
 /**
 * @author zhanghouying
@@ -36,29 +42,29 @@ public class App extends BaseEntity implements Serializable {
 
     @Id
 	@Column(name = "app_id")
-	@ApiModelProperty(value = "ID", hidden = true)
+	@Schema(title = "ID", hidden = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-	@ApiModelProperty(value = "名称")
+	@Schema(title = "名称")
     private String name;
 
-	@ApiModelProperty(value = "端口")
+	@Schema(title = "端口")
 	private int port;
 
-	@ApiModelProperty(value = "上传路径")
+	@Schema(title = "上传路径")
 	private String uploadPath;
 
-	@ApiModelProperty(value = "部署路径")
+	@Schema(title = "部署路径")
 	private String deployPath;
 
-	@ApiModelProperty(value = "备份路径")
+	@Schema(title = "备份路径")
 	private String backupPath;
 
-	@ApiModelProperty(value = "启动脚本")
+	@Schema(title = "启动脚本")
 	private String startScript;
 
-	@ApiModelProperty(value = "部署脚本")
+	@Schema(title = "部署脚本")
 	private String deployScript;
 
     public void copy(App source){

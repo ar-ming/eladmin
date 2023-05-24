@@ -15,31 +15,45 @@
  */
 package me.zhengjie.modules.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.util.ObjectUtil;
-import lombok.RequiredArgsConstructor;
-import me.zhengjie.exception.BadRequestException;
-import me.zhengjie.modules.system.domain.Dept;
-import me.zhengjie.modules.system.domain.User;
-import me.zhengjie.modules.system.repository.RoleRepository;
-import me.zhengjie.modules.system.repository.UserRepository;
-import me.zhengjie.modules.system.service.dto.DeptDto;
-import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
-import me.zhengjie.utils.*;
-import me.zhengjie.modules.system.repository.DeptRepository;
-import me.zhengjie.modules.system.service.DeptService;
-import me.zhengjie.modules.system.service.mapstruct.DeptMapper;
-import me.zhengjie.utils.enums.DataScopeEnum;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.*;
-import java.util.stream.Collectors;
+
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.ObjectUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.modules.system.domain.Dept;
+import me.zhengjie.modules.system.domain.User;
+import me.zhengjie.modules.system.repository.DeptRepository;
+import me.zhengjie.modules.system.repository.RoleRepository;
+import me.zhengjie.modules.system.repository.UserRepository;
+import me.zhengjie.modules.system.service.DeptService;
+import me.zhengjie.modules.system.service.dto.DeptDto;
+import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
+import me.zhengjie.modules.system.service.mapstruct.DeptMapper;
+import me.zhengjie.utils.CacheKey;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.SecurityUtils;
+import me.zhengjie.utils.StringUtils;
+import me.zhengjie.utils.ValidationUtil;
+import me.zhengjie.utils.enums.DataScopeEnum;
 
 /**
 * @author Zheng Jie

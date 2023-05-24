@@ -15,11 +15,15 @@
  */
 package me.zhengjie.domain;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * 邮件配置类，数据存覆盖式存入数据存
@@ -33,26 +37,26 @@ public class EmailConfig implements Serializable {
 
     @Id
     @Column(name = "config_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     private Long id;
 
     @NotBlank
-    @ApiModelProperty(value = "邮件服务器SMTP地址")
+    @Schema(title = "邮件服务器SMTP地址")
     private String host;
 
     @NotBlank
-    @ApiModelProperty(value = "邮件服务器 SMTP 端口")
+    @Schema(title = "邮件服务器 SMTP 端口")
     private String port;
 
     @NotBlank
-    @ApiModelProperty(value = "发件者用户名")
+    @Schema(title = "发件者用户名")
     private String user;
 
     @NotBlank
-    @ApiModelProperty(value = "密码")
+    @Schema(title = "密码")
     private String pass;
 
     @NotBlank
-    @ApiModelProperty(value = "收件人")
+    @Schema(title = "收件人")
     private String fromUser;
 }

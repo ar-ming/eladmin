@@ -15,15 +15,21 @@
  */
 package me.zhengjie.modules.mnt.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Objects;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Objects;
 
 /**
 * @author zhanghouying
@@ -37,23 +43,23 @@ public class ServerDeploy extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "server_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "服务器名称")
+    @Schema(title = "服务器名称")
     private String name;
 
-    @ApiModelProperty(value = "IP")
+    @Schema(title = "IP")
     private String ip;
 
-    @ApiModelProperty(value = "端口")
+    @Schema(title = "端口")
     private Integer port;
 
-    @ApiModelProperty(value = "账号")
+    @Schema(title = "账号")
     private String account;
 
-    @ApiModelProperty(value = "密码")
+    @Schema(title = "密码")
     private String password;
 
     public void copy(ServerDeploy source){

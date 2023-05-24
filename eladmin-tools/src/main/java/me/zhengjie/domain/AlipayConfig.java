@@ -15,11 +15,15 @@
  */
 package me.zhengjie.domain;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
 
 /**
  * 支付宝配置类
@@ -33,44 +37,44 @@ public class AlipayConfig implements Serializable {
 
     @Id
     @Column(name = "config_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     private Long id;
 
     @NotBlank
-    @ApiModelProperty(value = "应用ID")
+    @Schema(title = "应用ID")
     private String appId;
 
     @NotBlank
-    @ApiModelProperty(value = "商户私钥")
+    @Schema(title = "商户私钥")
     private String privateKey;
 
     @NotBlank
-    @ApiModelProperty(value = "支付宝公钥")
+    @Schema(title = "支付宝公钥")
     private String publicKey;
 
-    @ApiModelProperty(value = "签名方式")
+    @Schema(title = "签名方式")
     private String signType="RSA2";
 
     @Column(name = "gateway_url")
-    @ApiModelProperty(value = "支付宝开放安全地址", hidden = true)
+    @Schema(title = "支付宝开放安全地址", hidden = true)
     private String gatewayUrl = "https://openapi.alipaydev.com/gateway.do";
 
-    @ApiModelProperty(value = "编码", hidden = true)
+    @Schema(title = "编码", hidden = true)
     private String charset= "utf-8";
 
     @NotBlank
-    @ApiModelProperty(value = "异步通知地址")
+    @Schema(title = "异步通知地址")
     private String notifyUrl;
 
     @NotBlank
-    @ApiModelProperty(value = "订单完成后返回的页面")
+    @Schema(title = "订单完成后返回的页面")
     private String returnUrl;
 
-    @ApiModelProperty(value = "类型")
+    @Schema(title = "类型")
     private String format="JSON";
 
     @NotBlank
-    @ApiModelProperty(value = "商户号")
+    @Schema(title = "商户号")
     private String sysServiceProviderId;
 
 }

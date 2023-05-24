@@ -15,14 +15,18 @@
  */
 package me.zhengjie.modules.mnt.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import java.io.Serializable;
 
 /**
 * @author zhanghouying
@@ -36,19 +40,19 @@ public class Database extends BaseEntity implements Serializable {
 
     @Id
     @Column(name = "db_id")
-	@ApiModelProperty(value = "ID", hidden = true)
+	@Schema(title = "ID", hidden = true)
     private String id;
 
-	@ApiModelProperty(value = "数据库名称")
+	@Schema(title = "数据库名称")
     private String name;
 
-	@ApiModelProperty(value = "数据库连接地址")
+	@Schema(title = "数据库连接地址")
     private String jdbcUrl;
 
-	@ApiModelProperty(value = "数据库密码")
+	@Schema(title = "数据库密码")
     private String pwd;
 
-	@ApiModelProperty(value = "用户名")
+	@Schema(title = "用户名")
     private String userName;
 
     public void copy(Database source){

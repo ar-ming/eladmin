@@ -15,10 +15,12 @@
  */
 package me.zhengjie.utils;
 
+import java.util.Objects;
+
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * 获取 HttpServletRequest

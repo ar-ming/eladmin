@@ -15,22 +15,28 @@
  */
 package me.zhengjie.config;
 
-import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.alibaba.fastjson.support.config.FastJsonConfig;
-import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
+import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 /**
  * WebMvcConfigurer
@@ -44,6 +50,9 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
 
     /** 文件配置 */
     private final FileProperties properties;
+    
+    @Autowired
+    Jackson2ObjectMapperBuilder jacksonBuilder;
 
     public ConfigurerAdapter(FileProperties properties) {
         this.properties = properties;
@@ -74,6 +83,9 @@ public class ConfigurerAdapter implements WebMvcConfigurer {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         // 使用 fastjson 序列化，会导致 @JsonIgnore 失效，可以使用 @JSONField(serialize = false) 替换
+      converters.add(new ByteArrayHttpMessageConverter());
+      converters.add(new MappingJackson2HttpMessageConverter(jacksonBuilder.build()));
+      
         FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
         List<MediaType> supportMediaTypeList = new ArrayList<>();
         supportMediaTypeList.add(MediaType.APPLICATION_JSON);

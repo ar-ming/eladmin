@@ -15,13 +15,19 @@
  */
 package me.zhengjie.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import me.zhengjie.utils.GenUtil;
-import javax.persistence.*;
-import java.io.Serializable;
 
 /**
  * 列的数据信息
@@ -37,47 +43,47 @@ public class ColumnInfo implements Serializable {
 
     @Id
     @Column(name = "column_id")
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ApiModelProperty(value = "表名")
+    @Schema(title = "表名")
     private String tableName;
 
-    @ApiModelProperty(value = "数据库字段名称")
+    @Schema(title = "数据库字段名称")
     private String columnName;
 
-    @ApiModelProperty(value = "数据库字段类型")
+    @Schema(title = "数据库字段类型")
     private String columnType;
 
-    @ApiModelProperty(value = "数据库字段键类型")
+    @Schema(title = "数据库字段键类型")
     private String keyType;
 
-    @ApiModelProperty(value = "字段额外的参数")
+    @Schema(title = "字段额外的参数")
     private String extra;
 
-    @ApiModelProperty(value = "数据库字段描述")
+    @Schema(title = "数据库字段描述")
     private String remark;
 
-    @ApiModelProperty(value = "是否必填")
+    @Schema(title = "是否必填")
     private Boolean notNull;
 
-    @ApiModelProperty(value = "是否在列表显示")
+    @Schema(title = "是否在列表显示")
     private Boolean listShow;
 
-    @ApiModelProperty(value = "是否表单显示")
+    @Schema(title = "是否表单显示")
     private Boolean formShow;
 
-    @ApiModelProperty(value = "表单类型")
+    @Schema(title = "表单类型")
     private String formType;
 
-    @ApiModelProperty(value = "查询 1:模糊 2：精确")
+    @Schema(title = "查询 1:模糊 2：精确")
     private String queryType;
 
-    @ApiModelProperty(value = "字典名称")
+    @Schema(title = "字典名称")
     private String dictName;
 
-    @ApiModelProperty(value = "日期注解")
+    @Schema(title = "日期注解")
     private String dateAnnotation;
 
     public ColumnInfo(String tableName, String columnName, Boolean notNull, String columnType, String remark, String keyType, String extra) {

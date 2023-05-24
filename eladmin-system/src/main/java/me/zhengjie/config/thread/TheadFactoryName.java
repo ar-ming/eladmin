@@ -15,10 +15,11 @@
  */
 package me.zhengjie.config.thread;
 
-import me.zhengjie.utils.StringUtils;
-import org.springframework.stereotype.Component;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 /**
  * 自定义线程名称
@@ -40,9 +41,8 @@ public class TheadFactoryName implements ThreadFactory {
     }
 
     public TheadFactoryName(String name){
-        SecurityManager s = System.getSecurityManager();
-        group = (s != null) ? s.getThreadGroup() :
-                Thread.currentThread().getThreadGroup();
+//        SecurityManager s = System.getSecurityManager();
+        group = Thread.currentThread().getThreadGroup();
         //此时namePrefix就是 name + 第几个用这个工厂创建线程池的
         this.namePrefix = (StringUtils.isNotBlank(name) ? name : DEF_NAME) + "-" + POOL_NUMBER.getAndIncrement();
     }

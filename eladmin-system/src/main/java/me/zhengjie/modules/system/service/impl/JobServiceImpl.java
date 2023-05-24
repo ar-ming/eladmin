@@ -15,17 +15,13 @@
  */
 package me.zhengjie.modules.system.service.impl;
 
-import lombok.RequiredArgsConstructor;
-import me.zhengjie.exception.BadRequestException;
-import me.zhengjie.exception.EntityExistException;
-import me.zhengjie.modules.system.domain.Job;
-import me.zhengjie.modules.system.repository.UserRepository;
-import me.zhengjie.modules.system.service.dto.JobQueryCriteria;
-import me.zhengjie.utils.*;
-import me.zhengjie.modules.system.repository.JobRepository;
-import me.zhengjie.modules.system.service.JobService;
-import me.zhengjie.modules.system.service.dto.JobDto;
-import me.zhengjie.modules.system.service.mapstruct.JobMapper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -33,9 +29,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.exception.EntityExistException;
+import me.zhengjie.modules.system.domain.Job;
+import me.zhengjie.modules.system.repository.JobRepository;
+import me.zhengjie.modules.system.repository.UserRepository;
+import me.zhengjie.modules.system.service.JobService;
+import me.zhengjie.modules.system.service.dto.JobDto;
+import me.zhengjie.modules.system.service.dto.JobQueryCriteria;
+import me.zhengjie.modules.system.service.mapstruct.JobMapper;
+import me.zhengjie.utils.CacheKey;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.ValidationUtil;
 
 /**
 * @author Zheng Jie

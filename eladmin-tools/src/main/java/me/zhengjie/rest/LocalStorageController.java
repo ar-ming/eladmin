@@ -15,6 +15,26 @@
  */
 package me.zhengjie.rest;
 
+import java.io.IOException;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.domain.LocalStorage;
@@ -22,16 +42,6 @@ import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.service.LocalStorageService;
 import me.zhengjie.service.dto.LocalStorageQueryCriteria;
 import me.zhengjie.utils.FileUtil;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import io.swagger.annotations.*;
-import org.springframework.web.multipart.MultipartFile;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
 * @author Zheng Jie
@@ -39,20 +49,20 @@ import java.io.IOException;
 */
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "工具：本地存储管理")
+@Tag(name = "工具：本地存储管理")
 @RequestMapping("/api/localStorage")
 public class LocalStorageController {
 
     private final LocalStorageService localStorageService;
 
     @GetMapping
-    @ApiOperation("查询文件")
+    @Operation(summary="查询文件")
     @PreAuthorize("@el.check('storage:list')")
     public ResponseEntity<Object> queryFile(LocalStorageQueryCriteria criteria, Pageable pageable){
         return new ResponseEntity<>(localStorageService.queryAll(criteria,pageable),HttpStatus.OK);
     }
 
-    @ApiOperation("导出数据")
+    @Operation(summary="导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check('storage:list')")
     public void exportFile(HttpServletResponse response, LocalStorageQueryCriteria criteria) throws IOException {
@@ -60,14 +70,14 @@ public class LocalStorageController {
     }
 
     @PostMapping
-    @ApiOperation("上传文件")
+    @Operation(summary="上传文件")
     @PreAuthorize("@el.check('storage:add')")
     public ResponseEntity<Object> createFile(@RequestParam String name, @RequestParam("file") MultipartFile file){
         localStorageService.create(name, file);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @ApiOperation("上传图片")
+    @Operation(summary="上传图片")
     @PostMapping("/pictures")
     public ResponseEntity<Object> uploadPicture(@RequestParam MultipartFile file){
         // 判断文件是否为图片
@@ -81,7 +91,7 @@ public class LocalStorageController {
 
     @PutMapping
     @Log("修改文件")
-    @ApiOperation("修改文件")
+    @Operation(summary="修改文件")
     @PreAuthorize("@el.check('storage:edit')")
     public ResponseEntity<Object> updateFile(@Validated @RequestBody LocalStorage resources){
         localStorageService.update(resources);
@@ -90,7 +100,7 @@ public class LocalStorageController {
 
     @Log("删除文件")
     @DeleteMapping
-    @ApiOperation("多选删除")
+    @Operation(summary="多选删除")
     public ResponseEntity<Object> deleteFile(@RequestBody Long[] ids) {
         localStorageService.deleteAll(ids);
         return new ResponseEntity<>(HttpStatus.OK);

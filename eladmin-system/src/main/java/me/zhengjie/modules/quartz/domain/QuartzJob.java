@@ -15,14 +15,21 @@
  */
 package me.zhengjie.modules.quartz.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 
 /**
  * @author Zheng Jie
@@ -43,43 +50,43 @@ public class QuartzJob extends BaseEntity implements Serializable {
     private Long id;
 
     @Transient
-    @ApiModelProperty(value = "用于子任务唯一标识", hidden = true)
+    @Schema(title = "用于子任务唯一标识", hidden = true)
     private String uuid;
 
-    @ApiModelProperty(value = "定时器名称")
+    @Schema(title = "定时器名称")
     private String jobName;
 
     @NotBlank
-    @ApiModelProperty(value = "Bean名称")
+    @Schema(title = "Bean名称")
     private String beanName;
 
     @NotBlank
-    @ApiModelProperty(value = "方法名称")
+    @Schema(title = "方法名称")
     private String methodName;
 
-    @ApiModelProperty(value = "参数")
+    @Schema(title = "参数")
     private String params;
 
     @NotBlank
-    @ApiModelProperty(value = "cron表达式")
+    @Schema(title = "cron表达式")
     private String cronExpression;
 
-    @ApiModelProperty(value = "状态，暂时或启动")
+    @Schema(title = "状态，暂时或启动")
     private Boolean isPause = false;
 
-    @ApiModelProperty(value = "负责人")
+    @Schema(title = "负责人")
     private String personInCharge;
 
-    @ApiModelProperty(value = "报警邮箱")
+    @Schema(title = "报警邮箱")
     private String email;
 
-    @ApiModelProperty(value = "子任务")
+    @Schema(title = "子任务")
     private String subTask;
 
-    @ApiModelProperty(value = "失败后暂停")
+    @Schema(title = "失败后暂停")
     private Boolean pauseAfterFailure;
 
     @NotBlank
-    @ApiModelProperty(value = "备注")
+    @Schema(title = "备注")
     private String description;
 }

@@ -15,9 +15,9 @@
  */
 package me.zhengjie.modules.security.service.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author Zheng Jie

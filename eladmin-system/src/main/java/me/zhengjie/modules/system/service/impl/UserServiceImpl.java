@@ -15,20 +15,18 @@
  */
 package me.zhengjie.modules.system.service.impl;
 
-import lombok.RequiredArgsConstructor;
-import me.zhengjie.config.FileProperties;
-import me.zhengjie.exception.BadRequestException;
-import me.zhengjie.modules.security.service.OnlineUserService;
-import me.zhengjie.modules.security.service.UserCacheManager;
-import me.zhengjie.modules.system.domain.User;
-import me.zhengjie.exception.EntityExistException;
-import me.zhengjie.exception.EntityNotFoundException;
-import me.zhengjie.modules.system.repository.UserRepository;
-import me.zhengjie.modules.system.service.UserService;
-import me.zhengjie.modules.system.service.dto.*;
-import me.zhengjie.modules.system.service.mapstruct.UserLoginMapper;
-import me.zhengjie.modules.system.service.mapstruct.UserMapper;
-import me.zhengjie.utils.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -36,12 +34,34 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotBlank;
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotBlank;
+import lombok.RequiredArgsConstructor;
+import me.zhengjie.config.FileProperties;
+import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.exception.EntityExistException;
+import me.zhengjie.exception.EntityNotFoundException;
+import me.zhengjie.modules.security.service.OnlineUserService;
+import me.zhengjie.modules.security.service.UserCacheManager;
+import me.zhengjie.modules.system.domain.User;
+import me.zhengjie.modules.system.repository.UserRepository;
+import me.zhengjie.modules.system.service.UserService;
+import me.zhengjie.modules.system.service.dto.JobSmallDto;
+import me.zhengjie.modules.system.service.dto.RoleSmallDto;
+import me.zhengjie.modules.system.service.dto.UserDto;
+import me.zhengjie.modules.system.service.dto.UserLoginDto;
+import me.zhengjie.modules.system.service.dto.UserQueryCriteria;
+import me.zhengjie.modules.system.service.mapstruct.UserLoginMapper;
+import me.zhengjie.modules.system.service.mapstruct.UserMapper;
+import me.zhengjie.utils.CacheKey;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.SecurityUtils;
+import me.zhengjie.utils.StringUtils;
+import me.zhengjie.utils.ValidationUtil;
 
 /**
  * @author Zheng Jie

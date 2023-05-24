@@ -15,11 +15,12 @@
  */
 package me.zhengjie.modules.mnt.service.mapstruct;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
+
 import me.zhengjie.base.BaseMapper;
 import me.zhengjie.modules.mnt.domain.Deploy;
 import me.zhengjie.modules.mnt.service.dto.DeployDto;
-import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 
 /**
 * @author zhanghouying

@@ -15,16 +15,26 @@
  */
 package me.zhengjie.modules.quartz.utils;
 
+import static org.quartz.TriggerBuilder.newTrigger;
+
+import java.util.Date;
+
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
+import org.quartz.JobDetail;
+import org.quartz.JobKey;
+import org.quartz.Scheduler;
+import org.quartz.Trigger;
+import org.quartz.TriggerKey;
+import org.quartz.impl.triggers.CronTriggerImpl;
+import org.springframework.stereotype.Component;
+
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.quartz.domain.QuartzJob;
-import org.quartz.*;
-import org.quartz.impl.triggers.CronTriggerImpl;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import javax.annotation.Resource;
-import java.util.Date;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 /**
  * @author Zheng Jie

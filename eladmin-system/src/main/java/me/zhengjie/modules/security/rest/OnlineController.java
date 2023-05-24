@@ -15,19 +15,25 @@
  */
 package me.zhengjie.modules.security.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.RequiredArgsConstructor;
-import me.zhengjie.modules.security.service.OnlineUserService;
-import me.zhengjie.utils.EncryptUtils;
+import java.io.IOException;
+import java.util.Set;
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Set;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import me.zhengjie.modules.security.service.OnlineUserService;
+import me.zhengjie.utils.EncryptUtils;
 
 /**
  * @author Zheng Jie
@@ -35,26 +41,26 @@ import java.util.Set;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/online")
-@Api(tags = "系统：在线用户管理")
+@Tag(name = "系统：在线用户管理")
 public class OnlineController {
 
     private final OnlineUserService onlineUserService;
 
-    @ApiOperation("查询在线用户")
+    @Operation(summary = "查询在线用户")
     @GetMapping
     @PreAuthorize("@el.check()")
     public ResponseEntity<Object> queryOnlineUser(String filter, Pageable pageable){
         return new ResponseEntity<>(onlineUserService.getAll(filter, pageable),HttpStatus.OK);
     }
 
-    @ApiOperation("导出数据")
+    @Operation(summary = "导出数据")
     @GetMapping(value = "/download")
     @PreAuthorize("@el.check()")
     public void exportOnlineUser(HttpServletResponse response, String filter) throws IOException {
         onlineUserService.download(onlineUserService.getAll(filter), response);
     }
 
-    @ApiOperation("踢出用户")
+    @Operation(summary = "踢出用户")
     @DeleteMapping
     @PreAuthorize("@el.check()")
     public ResponseEntity<Object> deleteOnlineUser(@RequestBody Set<String> keys) throws Exception {

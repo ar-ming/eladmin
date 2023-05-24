@@ -15,24 +15,35 @@
  */
 package me.zhengjie.modules.system.service.impl;
 
-import cn.hutool.core.collection.CollectionUtil;
-import lombok.RequiredArgsConstructor;
-import me.zhengjie.modules.system.domain.Dict;
-import me.zhengjie.modules.system.service.dto.DictDetailDto;
-import me.zhengjie.modules.system.service.dto.DictQueryCriteria;
-import me.zhengjie.utils.*;
-import me.zhengjie.modules.system.repository.DictRepository;
-import me.zhengjie.modules.system.service.DictService;
-import me.zhengjie.modules.system.service.dto.DictDto;
-import me.zhengjie.modules.system.service.mapstruct.DictMapper;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+
+import cn.hutool.core.collection.CollectionUtil;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import me.zhengjie.modules.system.domain.Dict;
+import me.zhengjie.modules.system.repository.DictRepository;
+import me.zhengjie.modules.system.service.DictService;
+import me.zhengjie.modules.system.service.dto.DictDetailDto;
+import me.zhengjie.modules.system.service.dto.DictDto;
+import me.zhengjie.modules.system.service.dto.DictQueryCriteria;
+import me.zhengjie.modules.system.service.mapstruct.DictMapper;
+import me.zhengjie.utils.CacheKey;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.ValidationUtil;
 
 /**
 * @author Zheng Jie

@@ -15,17 +15,25 @@
  */
 package me.zhengjie.modules.system.domain;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
+
+import com.alibaba.fastjson.annotation.JSONField;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import me.zhengjie.base.BaseEntity;
 
 /**
 * @author Zheng Jie
@@ -40,30 +48,30 @@ public class Dept extends BaseEntity implements Serializable {
     @Id
     @Column(name = "dept_id")
     @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JSONField(serialize = false)
     @ManyToMany(mappedBy = "depts")
-    @ApiModelProperty(value = "角色")
+    @Schema(title = "角色")
     private Set<Role> roles;
 
-    @ApiModelProperty(value = "排序")
+    @Schema(title = "排序")
     private Integer deptSort;
 
     @NotBlank
-    @ApiModelProperty(value = "部门名称")
+    @Schema(title = "部门名称")
     private String name;
 
     @NotNull
-    @ApiModelProperty(value = "是否启用")
+    @Schema(title = "是否启用")
     private Boolean enabled;
 
-    @ApiModelProperty(value = "上级部门")
+    @Schema(title = "上级部门")
     private Long pid;
 
-    @ApiModelProperty(value = "子节点数目", hidden = true)
+    @Schema(title = "子节点数目", hidden = true)
     private Integer subCount = 0;
 
     @Override

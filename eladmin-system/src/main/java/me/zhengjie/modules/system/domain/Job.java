@@ -15,15 +15,21 @@
  */
 package me.zhengjie.modules.system.domain;
 
-import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.Objects;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-import java.util.Objects;
 
 /**
 * @author Zheng Jie
@@ -38,20 +44,20 @@ public class Job extends BaseEntity implements Serializable {
     @Id
     @Column(name = "job_id")
     @NotNull(groups = Update.class)
-    @ApiModelProperty(value = "ID", hidden = true)
+    @Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @ApiModelProperty(value = "岗位名称")
+    @Schema(title = "岗位名称")
     private String name;
 
     @NotNull
-    @ApiModelProperty(value = "岗位排序")
+    @Schema(title = "岗位排序")
     private Long jobSort;
 
     @NotNull
-    @ApiModelProperty(value = "是否启用")
+    @Schema(title = "是否启用")
     private Boolean enabled;
 
     @Override

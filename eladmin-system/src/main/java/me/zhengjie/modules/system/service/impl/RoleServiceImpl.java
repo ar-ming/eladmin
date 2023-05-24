@@ -15,14 +15,33 @@
  */
 package me.zhengjie.modules.system.service.impl;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import cn.hutool.core.collection.CollectionUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.exception.EntityExistException;
 import me.zhengjie.modules.security.service.UserCacheManager;
 import me.zhengjie.modules.security.service.dto.AuthorityDto;
 import me.zhengjie.modules.system.domain.Menu;
 import me.zhengjie.modules.system.domain.Role;
-import me.zhengjie.exception.EntityExistException;
 import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.modules.system.repository.RoleRepository;
 import me.zhengjie.modules.system.repository.UserRepository;
@@ -33,18 +52,13 @@ import me.zhengjie.modules.system.service.dto.RoleSmallDto;
 import me.zhengjie.modules.system.service.dto.UserDto;
 import me.zhengjie.modules.system.service.mapstruct.RoleMapper;
 import me.zhengjie.modules.system.service.mapstruct.RoleSmallMapper;
-import me.zhengjie.utils.*;
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
+import me.zhengjie.utils.CacheKey;
+import me.zhengjie.utils.FileUtil;
+import me.zhengjie.utils.PageUtil;
+import me.zhengjie.utils.QueryHelp;
+import me.zhengjie.utils.RedisUtils;
+import me.zhengjie.utils.StringUtils;
+import me.zhengjie.utils.ValidationUtil;
 
 /**
  * @author Zheng Jie

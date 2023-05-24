@@ -15,16 +15,25 @@
  */
 package me.zhengjie.modules.mnt.domain;
 
-import io.swagger.annotations.ApiModelProperty;
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.bean.copier.CopyOptions;
-import lombok.Getter;
-import lombok.Setter;
-import me.zhengjie.base.BaseEntity;
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Set;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import me.zhengjie.base.BaseEntity;
 /**
 * @author zhanghouying
 * @date 2019-08-24
@@ -37,12 +46,12 @@ public class Deploy extends BaseEntity implements Serializable {
 
     @Id
 	@Column(name = "deploy_id")
-	@ApiModelProperty(value = "ID", hidden = true)
+	@Schema(title = "ID", hidden = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 	@ManyToMany
-	@ApiModelProperty(name = "服务器", hidden = true)
+	@Schema(title = "服务器", hidden = true)
 	@JoinTable(name = "mnt_deploy_server",
 			joinColumns = {@JoinColumn(name = "deploy_id",referencedColumnName = "deploy_id")},
 			inverseJoinColumns = {@JoinColumn(name = "server_id",referencedColumnName = "server_id")})
@@ -50,7 +59,7 @@ public class Deploy extends BaseEntity implements Serializable {
 
 	@ManyToOne
     @JoinColumn(name = "app_id")
-	@ApiModelProperty(value = "应用编号")
+	@Schema(title = "应用编号")
     private App app;
 
     public void copy(Deploy source){

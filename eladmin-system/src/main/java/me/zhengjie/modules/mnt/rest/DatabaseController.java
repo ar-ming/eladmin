@@ -15,8 +15,28 @@
  */
 package me.zhengjie.modules.mnt.rest;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import java.io.File;
+import java.io.IOException;
+import java.util.Set;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import me.zhengjie.annotation.Log;
 import me.zhengjie.exception.BadRequestException;
@@ -26,24 +46,12 @@ import me.zhengjie.modules.mnt.service.dto.DatabaseDto;
 import me.zhengjie.modules.mnt.service.dto.DatabaseQueryCriteria;
 import me.zhengjie.modules.mnt.util.SqlUtils;
 import me.zhengjie.utils.FileUtil;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.IOException;
-import java.util.Set;
 
 /**
 * @author zhanghouying
 * @date 2019-08-24
 */
-@Api(tags = "运维：数据库管理")
+@Tag(name = "运维：数据库管理")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/database")
@@ -52,14 +60,14 @@ public class DatabaseController {
 	private final String fileSavePath = FileUtil.getTmpDirPath()+"/";
     private final DatabaseService databaseService;
 
-	@ApiOperation("导出数据库数据")
+	@Operation(summary="导出数据库数据")
 	@GetMapping(value = "/download")
 	@PreAuthorize("@el.check('database:list')")
 	public void exportDatabase(HttpServletResponse response, DatabaseQueryCriteria criteria) throws IOException {
 		databaseService.download(databaseService.queryAll(criteria), response);
 	}
 
-    @ApiOperation(value = "查询数据库")
+    @Operation(summary= "查询数据库")
     @GetMapping
 	@PreAuthorize("@el.check('database:list')")
     public ResponseEntity<Object> queryDatabase(DatabaseQueryCriteria criteria, Pageable pageable){
@@ -67,7 +75,7 @@ public class DatabaseController {
     }
 
     @Log("新增数据库")
-    @ApiOperation(value = "新增数据库")
+    @Operation(summary= "新增数据库")
     @PostMapping
 	@PreAuthorize("@el.check('database:add')")
     public ResponseEntity<Object> createDatabase(@Validated @RequestBody Database resources){
@@ -76,7 +84,7 @@ public class DatabaseController {
     }
 
     @Log("修改数据库")
-    @ApiOperation(value = "修改数据库")
+    @Operation(summary= "修改数据库")
     @PutMapping
 	@PreAuthorize("@el.check('database:edit')")
     public ResponseEntity<Object> updateDatabase(@Validated @RequestBody Database resources){
@@ -85,7 +93,7 @@ public class DatabaseController {
     }
 
     @Log("删除数据库")
-    @ApiOperation(value = "删除数据库")
+    @Operation(summary= "删除数据库")
     @DeleteMapping
 	@PreAuthorize("@el.check('database:del')")
     public ResponseEntity<Object> deleteDatabase(@RequestBody Set<String> ids){
@@ -94,7 +102,7 @@ public class DatabaseController {
     }
 
 	@Log("测试数据库链接")
-	@ApiOperation(value = "测试数据库链接")
+	@Operation(summary= "测试数据库链接")
 	@PostMapping("/testConnect")
 	@PreAuthorize("@el.check('database:testConnect')")
 	public ResponseEntity<Object> testConnect(@Validated @RequestBody Database resources){
@@ -102,7 +110,7 @@ public class DatabaseController {
 	}
 
 	@Log("执行SQL脚本")
-	@ApiOperation(value = "执行SQL脚本")
+	@Operation(summary= "执行SQL脚本")
 	@PostMapping(value = "/upload")
 	@PreAuthorize("@el.check('database:add')")
 	public ResponseEntity<Object> uploadDatabase(@RequestBody MultipartFile file, HttpServletRequest request)throws Exception{

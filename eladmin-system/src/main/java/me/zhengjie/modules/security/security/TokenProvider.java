@@ -15,24 +15,31 @@
  */
 package me.zhengjie.modules.security.security;
 
-import cn.hutool.core.date.DateField;
-import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.util.IdUtil;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
-import lombok.extern.slf4j.Slf4j;
-import me.zhengjie.modules.security.config.bean.SecurityProperties;
-import me.zhengjie.utils.RedisUtils;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
-import javax.servlet.http.HttpServletRequest;
-import java.security.Key;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+
+import cn.hutool.core.date.DateField;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.IdUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtBuilder;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+import me.zhengjie.modules.security.config.bean.SecurityProperties;
+import me.zhengjie.utils.RedisUtils;
 
 /**
  * @author /
